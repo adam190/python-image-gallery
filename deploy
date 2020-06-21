@@ -1,0 +1,12 @@
+#!/usr/bin/bash
+
+if [ "$#" != "1" ]; then
+    echo "Usage: deploy <version-numbers>"
+    exit 1
+fi
+
+BUCKET="edu.au.cc.imagegallery-config"
+
+aws s3 cp ec2-scripts/ec2-prod-$1.sh s3://edu.au.cc.imagegallery-config
+aws s3 cp nginx/nginx.conf s3://edu.au.cc.imagegallery-config/nginx/nginx.conf
+aws s3 cp nginx/default.d/image_gallery.conf s3://edu.au.cc.imagegallery-config/nginx/default.d/image_gallery.conf

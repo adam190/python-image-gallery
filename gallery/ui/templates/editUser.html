@@ -1,0 +1,18 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+     <title>Edit user</title>
+     <meta charset="utf-8" />
+    </head>
+    <body>
+      <h1> Edit user {{ username }}</hi>
+      <form action="/admin/editUser/{{ username }}" methods="POST">
+        Enter new password: <input name="pw" value="" /><br />
+        Enter new fullname: <input name="fn" value="" /><br />
+        <input type="submit" value="edit" />
+      </form>
+    </body>
+</html>
+
+
