@@ -2,8 +2,14 @@ from flask import Flask
 from flask import request
 from flask import render_template
 from gallery.ui import db
+from flask import redirect
+from ..data.useer import user
+from ..data.postgres_user_dao import PostgresUserDAO
+from ..data.db import connect
 
 app = Flask(__name__)
+app.secret_key = b'lkj;alsdkjf'
+connect()
 
 @app.route('/')
 def hello_world():
