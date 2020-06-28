@@ -1,0 +1,49 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    index_file: developer/var/www/html/index.html
+    apache_user: apache
+    apache_group: apache
+  tasks:
+    - name: Install emacs-nox
+      package:
+        name: emacs-nox
+        state: present
+        update_cache: yes
+    - name: Install nano
+      package:
+        name: nano
+        state: present  
+    - name: Install apache
+      when: 
+        - ansible_facts['distribution'] == 'Amazon'
+      package:
+        name: httpd
+        state: present
+    - name: Install apache
+      when:
+        - ansible_facts['distribution'] == 'Ubuntu'
+      package:
+        name: apache2
+        state: present    
+    - name: Copy index.html
+      copy:
+        src: "{{ index_file }}"
+        dest: /var/www/html/index.html   
+        owner: "{{ apache_user }}"
+        group: "{{ apache_group }}"
+    - name : Start amazon apache 
+      when:
+        - ansible_facts['distribution'] == 'Amazon'
+      service:
+        name: httpd
+        state: started 
+        enabled: true
+    - name : Start ubuntu apache  
+      when:
+        - ansible_facts['distribution'] == 'Ubuntu'
+      service:
+        name: httpd
+        state: started 
+        enabled: true 
