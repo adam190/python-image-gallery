@@ -7,7 +7,7 @@
     min_size: 2
     max_size: 10 
     desired_capacity: 2
-    vpc_zone_identifier: [ 'subnet- ', 'subnet- ' ]
+    vpc_zone_identifier: [ 'subnet-private_subnet ', 'subnet-private_subnet2 ' ]
     tags:
       - environment: production
         propogate_at_launch: no
@@ -15,7 +15,7 @@
 - name: create launch config
   ec2_lc:
     name: module5-lc
-    image_id: ami -
+    image_id: "{{ instance.image_id }}"
     key_name: mykey
     region: us-west-1
     security-groups: sg-
