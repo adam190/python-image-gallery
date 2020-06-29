@@ -35,6 +35,23 @@
         cidr: 10.10.1.0/24
         state: present
       register: private_subnet
+    - name : Create private subnet2
+      ec2_vpc_subnet:
+        vpc_id: "{{ vpc.vpc.id }}"
+        tags:
+          Name: Module5 private2
+          Module: 5
+        cidr: 10.10.2.0/24
+        state: present
+      register: private_subnet2
+    - name: Create public subnet2
+      ec2_vpc_subnet:
+        vpc_id: "{{ vpc.vpc.id }}"
+        tags:
+          Name: Module5 public2
+          Module: 5
+        cidr: 10.10.3.0/24
+        state: present
     - name: Create internet gateway
       ec2_vpc_igw:
         vpc_id: "{{ vpc.vpc.id }}"
