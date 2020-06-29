@@ -53,14 +53,45 @@
             gateway_id: "{{ igw.gateway_id }}"
     - name: Create security group
       ec2_group:
-        name: Module5-developer-sg
+        name: ig-postgres-sg
         description: Developer security group
         vpc-id: "{{ vpc.vpc.id }}"
         rules:
           - proto: tcp
             ports:
               - 22
-              - 80
+              - 5432
             cidr_ip 0.0.0.0/0
-            rule_desc: allow all to ports 22 and 80
         state: present
+    - name: Create security group
+      ec2_group:
+        name: ig-postgres-tag-sg
+        description: ig postgres tag sg
+        vpc-id: "{{ vpc.vpc.id }}"
+        rules:
+          - proto: tcp
+            ports:
+              - 22
+            cidr_ip 0.0.0.0/0
+        state: present
+    - name: Create security group
+      ec2_group:
+        name: ig-development-sg
+        description: ig dev sg
+        vpc_id: "{{ vpc.vpc.id }}"
+        rules:
+          - proto: tcp
+            ports:
+              - All
+    - name: Create RDS Instance
+      rds:
+        commmand: create
+        instance_name: Module5-
+        db_engine: postgres
+        db_name: image_gallery
+        size: '10'
+        instance_type: db.t2.micro
+        username: postgres
+        password: shutupwesley
+        subnet: private_subnet
+        vpc_security_groups: "{{Module5-developer-sg}}"
