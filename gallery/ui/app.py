@@ -1,3 +1,5 @@
+from flask import Flask
+from flask import request
 from flask import render_template
 from flask import redirect
 from flask import session
@@ -7,11 +9,26 @@ from ..data.postgres_user_dao import PostgresUserDAO
 from ..data.db import connect 
 
 app = Flask(__name__)
+
 app.secret_key = b'lkj;alsdkjf'
 connect()
 
 def get_user_dao():
 	return PostgresUserDAO()
+
+@app.route('/users')
+def users():
+    result = ""
+    for user in get_user_dao().get_users():
+        result += str(user)
+    return result
+
+@app.route('/inc')
+def inc():
+    if 'value' not in session:
+        sessions['value'] =0
+    session['value'] = session['value'] + 1
+    return "<h1>"+str(session['value'])+"</h1>"
 
 @app.route('/storeStuff')
 def storeStuff():
@@ -40,7 +57,7 @@ def deleteUser(username):
 
 @app.route('/admin/users')
 def users():
-	return render_template('users.html, users=get_user_dao().get_users())
+	return render_template('users.html', users=get_user_dao().get_users())
 
 @app.route('/')
 def hello_world():
