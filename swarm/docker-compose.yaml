@@ -1,0 +1,26 @@
+---
+version: "3"
+
+services:
+
+  registry:
+    image: registry:latest
+    ports:
+      - "5000:5000"
+    deploy:
+      replicas: 1
+  pinger:
+    image: "localhost:5000/net"
+    command: ["ping", "google.com"]
+    deploy:
+      mode: global
+    depends_on:
+      - "registry"
+
+  flask:
+    image: "localhost:5000/flask"
+    deploy:
+      mode: "replicated"
+      replicas: 2
+    depends_on:
+      - "registry"

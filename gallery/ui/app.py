@@ -9,11 +9,26 @@ from flask import session
 from .tools.db import connect 
 
 app = Flask(__name__)
+
 app.secret_key = b'lkj;alsdkjf'
 connect()
 
 def get_user_dao():
 	return PostgresUserDAO()
+
+@app.route('/users')
+def users():
+    result = ""
+    for user in get_user_dao().get_users():
+        result += str(user)
+    return result
+
+@app.route('/inc')
+def inc():
+    if 'value' not in session:
+        sessions['value'] =0
+    session['value'] = session['value'] + 1
+    return "<h1>"+str(session['value'])+"</h1>"
 
 @app.route('/storeStuff')
 def storeStuff():
@@ -42,8 +57,12 @@ def deleteUser(username):
 
 @app.route('/admin/users')
 def users():
+<<<<<<< HEAD
 #	return render_template('users.html, users=get_user_dao().get_users())
 	pass
+=======
+	return render_template('users.html', users=get_user_dao().get_users())
+>>>>>>> 696e2c3a90f9df9f0800912a6de568d1f410d0df
 
 @app.route('/')
 def hello_world():

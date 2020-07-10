@@ -59,7 +59,7 @@ def get_secret_image_gallery():
         else: 
             decoded_binary_secret = base64.b64decode(get_secret_value_response['SecretBinary'])
     # Your code goes here.
-    if secret is None:
-        return decoded_binary_secret
-    else:
-        return secret
+#    if secret is None:
+ #       return decoded_binary_secret
+  #  else:
+   #     return secret
