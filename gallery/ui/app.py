@@ -1,10 +1,12 @@
+from flask import Flask
+from flask import request
 from flask import render_template
 from flask import redirect
 from flask import session
 
-from ..data.user import User
-from ..data.postgres_user_dao import PostgresUserDAO
-from ..data.db import connect 
+#from ..data.user import User
+#from ..data.postgres_user_dao import PostgresUserDAO
+from .tools.db import connect 
 
 app = Flask(__name__)
 app.secret_key = b'lkj;alsdkjf'
@@ -40,7 +42,8 @@ def deleteUser(username):
 
 @app.route('/admin/users')
 def users():
-	return render_template('users.html, users=get_user_dao().get_users())
+#	return render_template('users.html, users=get_user_dao().get_users())
+	pass
 
 @app.route('/')
 def hello_world():

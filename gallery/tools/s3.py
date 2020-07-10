@@ -51,7 +51,7 @@ def get_object(bucket_name, key):
 
 
 def main():
-#   create_bucket('edu.au.cc.imagegallery','us-west-1')
+    create_bucket('edu.au.cc.imagegallery','us-west-1')
     put_object('edu.au.cc.imagegallery', 'banana', 'green')
     print(get_object('edu.au.cc.imagegallery', 'banana')['Body'].read())
 
