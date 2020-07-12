@@ -1,0 +1,23 @@
+---
+- ec2_asg:
+    name: special 
+    load_balancers: [ 'lb1', 'lb2' ]
+    availability_zones: [ 'us-west-1', 'us-west-2' ]
+    launch_config_name: 'lc-1'
+    min_size: 2
+    max_size: 10 
+    desired_capacity: 2
+    vpc_zone_identifier: [ 'subnet-private_subnet ', 'subnet-private_subnet2 ' ]
+    tags:
+      - environment: production
+        propogate_at_launch: no
+
+- name: create launch config
+  ec2_lc:
+    name: module5-lc
+    image_id: "{{ instance.image_id }}"
+    key_name: mykey
+    region: us-west-1
+    security-groups: sg-
+    instance_type: t3.nano
+    assign_public_ip: yes 

@@ -17,19 +17,14 @@ services:
     volumes:
       - "registry:/mnt/registry"
 
-#  pinger:
-#    image: "localhost:5000/net"
-#    command: ["ping", "google.com"]
-#    deploy:
-#      mode: global
-#    depends_on:
-#      - "registry"
-
   flask:
     image: "localhost:5000/flask"
     deploy:
       mode: "replicated"
       replicas: 2
+      placement:
+        constraints:
+          - node.labels.flask_server!=yes
     depends_on:
       - "registry"
 
@@ -39,15 +34,13 @@ services:
       POSTGRES_PASSWORD: ""
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
-      PGDATA: /mnt/image-gallery-postgres/pgdata
+      PGDATA: "/var/lib/postgresql/data/pgdata"
     deploy:
-      mode: "replicated"
       replicas: 1
-      placement:
-        constraints:
-          - node.labels.database==yes
     volumes:
-      - "/home/ec2-user/image-gallery-postgres:/mnt/image-gallery-postgres"
+      - "image-gallery-postgres:/var/lib/postgresql/data"
 
 volumes:
-  registry:
+     registry:
+     image-gallery-postgres:
+     driver: rexray/efs
