@@ -1,0 +1,9 @@
+FROM ubuntu:latest
+
+# Build instructions
+ENV NAME="Test"
+RUN apt-get update -y && apt-get install python3 -y 
+COPY app /app/
+
+# Boot Command
+CMD ["/usr/bin/python3", "/app/hello.py"]
